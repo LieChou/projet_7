@@ -1,5 +1,29 @@
 import React, { Component } from 'react';
-import { Header, RestaurantList, RestaurantsMap } from './components';
+import { Header, RestaurantList } from './components';
+import { withScriptjs, withGoogleMap, GoogleMap, Marker } from "react-google-maps";
+import * as restaurantsData from './components/util/restaurants.json';
+
+function Map() {
+  return (
+    <GoogleMap
+      defaultZoom={10}
+      defaultCenter={{ lat: 48.856613, lng: 2.352222 }}
+      {...restaurantsData.map((r, index) => (
+        <Marker
+          key={r.restaurantName + index}
+          position={{
+            lat: r.lat,
+            lng: r.long
+          }}
+        />
+      ))}
+    >
+    </GoogleMap>
+  );
+}
+
+const WrappedMap = withScriptjs(withGoogleMap(Map));
+
 
 export default class App extends Component {
   constructor(props) {
@@ -37,6 +61,38 @@ export default class App extends Component {
               comment: "J'ai trouvé ça correct, sans plus"
             }
           ]
+        },
+        {
+          restaurantName: "Natacho",
+          address: "14 rue de la Paix, 75019 Paris",
+          lat: 48.882570,
+          long: 2.382630,
+          ratings: [
+            {
+              stars: 4,
+              comment: "Sympa! Belle découverte, je recommande"
+            },
+            {
+              stars: 5,
+              comment: "J'ai trouvé ça au top!"
+            }
+          ]
+        },
+        {
+          restaurantName: "Angel",
+          address: "30 rue Nazareth, 75003 Paris",
+          lat: 48.863700,
+          long: 2.361090,
+          ratings: [
+            {
+              stars: 5,
+              comment: "Belle cuisine gastronomique"
+            },
+            {
+              stars: 3,
+              comment: "Gastronomique et beaucoup trop cher"
+            }
+          ]
         }
       ],
       selectedRestaurant: 0,
@@ -64,17 +120,26 @@ export default class App extends Component {
           <Header />
         </div>
         <div className="d-flex flex-row justify-content-center">
-          <div className="w-75">
+          <div className="w-25">
             <RestaurantList restaurants={this.state.restaurants} updateRestaurants={this.updateRestaurants} updateSelectedRestaurant={this.updateSelectedRestaurant} />
           </div>
-          <div className="w-25">
-            <RestaurantsMap restaurants={this.state.restaurants} updateRestaurants={this.updateRestaurants} />
+          <div className="w-75">
+            <div style={{ width: "100vw", height: "100vh" }}>
+              <WrappedMap
+                googleMapURL={`https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=geometry,drawing,places&key=AIzaSyCUcHQj9ibjlhFlD2iZ-GEWeLIqFE5buXQ`
+                }
+                loadingElement={<div style={{ height: `100%` }} />}
+                containerElement={<div style={{ height: `100%` }} />}
+                mapElement={<div style={{ height: `100%` }} />}
+              />
+            </div>
           </div>
         </div>
       </div>
     )
   }
 }
+
 
 
 

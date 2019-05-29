@@ -30,6 +30,37 @@
                 "comment": "J'ai trouvé ça correct, sans plus"
             }
         ]
+    },
+    {
+        "restaurantName": "Natacho",
+        "address": "14 rue de la Paix, 75019 Paris",
+        "lat": 48.882570,
+        "long": 2.382630,
+        "ratings": [
+            {
+                "stars": 4,
+                "comment": "Sympa! Belle découverte, je recommande"
+            },
+            {
+                "stars": 5,
+                "comment": "J'ai trouvé ça au top!"
+            }
+        ]
+    },
+    {
+        "restaurantName": "Angel",
+        "address": "30 rue Nazareth, 75003 Paris",
+        "lat": 48.863700,
+        "long": 2.361090,
+        "ratings": [
+            {
+                "stars": 5,
+                "comment": "Belle cuisine gastronomique"
+            },
+            {
+                "stars": 3,
+                "comment": "Gastronomique et beaucoup trop cher"
+            }
+        ]
     }
 ]
-
