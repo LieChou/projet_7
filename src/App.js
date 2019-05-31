@@ -1,14 +1,15 @@
 import React, { Component } from 'react';
 import { Header, RestaurantList } from './components';
 import { withScriptjs, withGoogleMap, GoogleMap, Marker } from "react-google-maps";
-import * as restaurantsData from './components/util/restaurants.json';
+import RestaurantsDatas from './components/util/restaurants.json';
 
 function Map() {
   return (
     <GoogleMap
       defaultZoom={10}
       defaultCenter={{ lat: 48.856613, lng: 2.352222 }}
-      {...restaurantsData.map((r, index) => (
+    >
+      {RestaurantsDatas.map((r, index) => (
         <Marker
           key={r.restaurantName + index}
           position={{
@@ -17,11 +18,10 @@ function Map() {
           }}
         />
       ))}
-    >
-    </GoogleMap>
+    </GoogleMap >
   );
 }
-
+console.log(...RestaurantsDatas);
 const WrappedMap = withScriptjs(withGoogleMap(Map));
 
 
@@ -29,72 +29,7 @@ export default class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      restaurants: [
-        {
-          restaurantName: "Bronco",
-          address: "39 Rue des Petites Écuries, 75010 Paris",
-          lat: 48.8737815,
-          long: 2.3501649,
-          ratings: [
-            {
-              stars: 4,
-              comment: "Un excellent restaurant, j'y reviendrai ! Par contre il vaut mieux aimer la viande."
-            },
-            {
-              stars: 5,
-              comment: "Tout simplement mon restaurant préféré !"
-            }
-          ]
-        },
-        {
-          restaurantName: "Babalou",
-          address: "4 Rue Lamarck, 75018 Paris",
-          lat: 48.8865035,
-          long: 2.3442197,
-          ratings: [
-            {
-              stars: 5,
-              comment: "Une minuscule pizzeria délicieuse cachée juste à côté du Sacré choeur !"
-            },
-            {
-              stars: 3,
-              comment: "J'ai trouvé ça correct, sans plus"
-            }
-          ]
-        },
-        {
-          restaurantName: "Natacho",
-          address: "14 rue de la Paix, 75019 Paris",
-          lat: 48.882570,
-          long: 2.382630,
-          ratings: [
-            {
-              stars: 4,
-              comment: "Sympa! Belle découverte, je recommande"
-            },
-            {
-              stars: 5,
-              comment: "J'ai trouvé ça au top!"
-            }
-          ]
-        },
-        {
-          restaurantName: "Angel",
-          address: "30 rue Nazareth, 75003 Paris",
-          lat: 48.863700,
-          long: 2.361090,
-          ratings: [
-            {
-              stars: 5,
-              comment: "Belle cuisine gastronomique"
-            },
-            {
-              stars: 3,
-              comment: "Gastronomique et beaucoup trop cher"
-            }
-          ]
-        }
-      ],
+      restaurants: RestaurantsDatas,
       selectedRestaurant: 0,
       loaded: false
     }
