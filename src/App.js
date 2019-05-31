@@ -1,29 +1,103 @@
 import React, { Component } from 'react';
 import { Header, RestaurantList } from './components';
-import { withScriptjs, withGoogleMap, GoogleMap, Marker } from "react-google-maps";
+import { withScriptjs, withGoogleMap, GoogleMap, Marker, InfoWindow } from "react-google-maps";
 import RestaurantsDatas from './components/util/restaurants.json';
 
-function Map() {
-  return (
-    <GoogleMap
-      defaultZoom={10}
-      defaultCenter={{ lat: 48.856613, lng: 2.352222 }}
-    >
-      {RestaurantsDatas.map((r, index) => (
-        <Marker
-          key={r.restaurantName + index}
-          position={{
-            lat: r.lat,
-            lng: r.long
-          }}
-        />
-      ))}
-    </GoogleMap >
-  );
-}
-console.log(...RestaurantsDatas);
-const WrappedMap = withScriptjs(withGoogleMap(Map));
+class Map extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      position: {
+        lat: 48.856613,
+        lng: 2.352222
+      },
+      selectedRestaurant: null
+    }
+  }
 
+  setSelectedRestaurant = (r) => {
+    this.setState({
+      selectedRestaurant: r,
+    })
+  }
+
+  componentDidMount() {
+    navigator.geolocation.getCurrentPosition(location => {
+      this.setState({
+        position: {
+          lat: location.coords.latitude,
+          lng: location.coords.longitude
+        }
+      })
+    });
+  }
+
+  promptRatings = () => {
+    return (
+      this.state.selectedRestaurant.ratings.map((rating, index) => (
+        <ul>
+          <li key={rating.stars + index}>{rating.stars}</li>
+          <li key={rating.stars + index}>{rating.comment}</li>
+        </ul>
+      )))
+  }
+
+  render() {
+    return (
+      <GoogleMap
+        defaultZoom={12}
+        defaultCenter={this.state.position}
+      >
+
+        {RestaurantsDatas.map((r, index) => (
+          <Marker
+            key={r.restaurantName + index}
+            position={{
+              lat: r.lat,
+              lng: r.long
+            }}
+            onClick={() => {
+              this.setSelectedRestaurant(r);
+            }}
+          />
+        ))}
+
+        {this.state.selectedRestaurant && (
+          <InfoWindow
+            position={{
+              lat: this.state.selectedRestaurant.lat,
+              lng: this.state.selectedRestaurant.long
+            }}
+            onCloseClick={() => {
+              this.setSelectedRestaurant(null);
+            }}
+          >
+            <div>
+              {this.state.selectedRestaurant.restaurantName}
+              {this.promptRatings()}
+            </div>
+          </InfoWindow>
+        )}
+
+        {this.state.position && (
+          <Marker
+            position={{
+              lat: this.state.position.lat,
+              lng: this.state.position.lng
+            }}
+            icon={{
+              url: '/manOnAMap.svg',
+              scaledSize: new window.google.maps.Size(50, 50)
+            }}
+          />
+        )}
+
+      </GoogleMap >
+    );
+  }
+}
+
+const WrappedMap = withScriptjs(withGoogleMap(Map));
 
 export default class App extends Component {
   constructor(props) {
