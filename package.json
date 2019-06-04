@@ -10,8 +10,10 @@
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
     "react-geolocated": "^2.5.0",
+    "react-google-map-street-view": "^1.1.0",
     "react-google-maps": "^9.4.5",
-    "react-scripts": "3.0.1"
+    "react-scripts": "3.0.1",
+    "react-streetview": "^1.1.1"
   },
   "scripts": {
     "start": "react-scripts start",
