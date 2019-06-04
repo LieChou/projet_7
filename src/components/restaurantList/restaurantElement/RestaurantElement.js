@@ -23,7 +23,9 @@ export default class RestaurantElement extends Component {
                 <div className="card">
                     <div className="card-body">
                         <h5>{this.props.restaurant.restaurantName}</h5>
-                        <p>Moyenne des avis: {}</p>
+                        <div>
+                            <p>Moyenne des avis: {this.props.setAverageRatings(this.props.restaurant)}</p>
+                        </div>
                         <button>Ajouter un avis</button>
                     </div>
                 </div>
