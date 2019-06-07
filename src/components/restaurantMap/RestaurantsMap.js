@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import RestaurantsDatas from '../util/restaurants.json';
 import { GoogleMap, Marker, InfoWindow, withScriptjs, withGoogleMap } from "react-google-maps";
+import StarRatingComponent from 'react-star-rating-component';
 
 class Map extends Component {
     constructor(props) {
@@ -35,7 +36,12 @@ class Map extends Component {
         return (
             this.state.selectedRestaurant.ratings.map((rating, index) => (
                 <ul key={rating + index}>
-                    <li >{rating.stars}</li>
+                    <li >{rating.stars}
+                        <StarRatingComponent
+                            name="AverageRatings"
+                            editing={false}
+                            value={rating.stars}
+                        /></li>
                     <li >{rating.comment}</li>
                 </ul>
             )))
