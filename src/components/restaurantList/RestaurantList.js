@@ -10,7 +10,6 @@ export default class RestaurantList extends Component {
                     <RestaurantElement
                         key={r.restaurantName + index}
                         restaurant={r}
-                        updateSelectedRestaurant={() => this.props.updateSelectedRestaurant(index)}
                         setAverageRatings={() => this.props.setAverageRatings(r)}
                     />
                 ))}

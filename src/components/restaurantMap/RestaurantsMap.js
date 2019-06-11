@@ -11,7 +11,22 @@ class Map extends Component {
                 lat: 48.856613,
                 lng: 2.352222
             },
-            selectedRestaurant: null
+            selectedRestaurant: {
+                "restaurantName": "Angel",
+                "address": "30 rue Nazareth, 75003 Paris",
+                "lat": 48.863700,
+                "long": 2.361090,
+                "ratings": [
+                    {
+                        "stars": 5,
+                        "comment": "Belle cuisine gastronomique"
+                    },
+                    {
+                        "stars": 3,
+                        "comment": "Gastronomique et beaucoup trop cher"
+                    }
+                ]
+            }
         }
     }
 
@@ -48,7 +63,6 @@ class Map extends Component {
     }
 
     render() {
-
         return (
             <GoogleMap
                 defaultZoom={12}
@@ -68,7 +82,7 @@ class Map extends Component {
                     />
                 ))}
 
-                {this.state.selectedRestaurant && (
+                {this.state.selectedRestaurant ? (
                     <InfoWindow
                         position={{
                             lat: this.state.selectedRestaurant.lat,
@@ -79,14 +93,20 @@ class Map extends Component {
                         }}
                     >
                         <div>
-                            <h5>
-                                {this.state.selectedRestaurant.restaurantName}
-                            </h5>
-                            {this.promptRatings()}
+                            <div>
+                                <h5>
+                                    {this.state.selectedRestaurant.restaurantName}
+                                </h5>
+                                {this.promptRatings()}
+                            </div>
+
                         </div>
 
                     </InfoWindow>
-                )}
+                ) : null
+                }
+
+
 
                 {this.state.position && (
                     <Marker

@@ -8,27 +8,20 @@ export default class App extends Component {
     super(props);
     this.state = {
       restaurants: RestaurantsDatas,
-      selectedRestaurant: [],
+      initialRestaurants: RestaurantsDatas,
       loaded: false,
       selectedRestaurants: [],
       averageValue: [],
       value: 5,
+      inputvalue: 5
     }
-    this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
-
+    this.handleChange = this.handleChange.bind(this);
   }
 
   updateSelectedRestaurant = (index) => {
     this.setState({
       selectedRestaurant: index
-    })
-  }
-
-  updateRestaurants = (restaurants) => {
-    this.setState({
-      restaurants,
-      loaded: true
     })
   }
 
@@ -48,27 +41,29 @@ export default class App extends Component {
   }
 
   handleChange(event) {
-    this.setState({ value: event.target.value })
-  }
-
-  handleSubmit() {
-    this.restaurants.map((restaurant) => {
-      this.setState({
-        averageValue: this.setAverageRatings(restaurant)
-      })
-      if (this.state.averageValue >= this.state.value) { //event.target.value
-        this.state.selectedRestaurant.push(restaurant)
-      } else { }
-
-      return (
-        this.setState({
-          restaurants: this.state.selectedRestaurant,
-          loaded: true
-        })
-      )
+    let inputvalue = event.target.value
+    this.setState({
+      value: inputvalue
     })
   }
 
+  handleSubmit(e) {
+    e.preventDefault();
+    const arrayRestaurant = [];
+    this.state.initialRestaurants.map(async (restaurant) => {
+      const averageValue = await this.setAverageRatings(restaurant)
+
+      if (averageValue >= this.state.value) {
+        arrayRestaurant.push(restaurant)
+      } else {
+        return;
+      }
+      this.setState({
+        restaurants: arrayRestaurant,
+        loaded: true
+      })
+    })
+  }
 
   render() {
     return (
@@ -78,17 +73,19 @@ export default class App extends Component {
           <Header
             restaurants={this.state.restaurants}
             setAverageRatings={this.setAverageRatings}
-            updateRestaurants={this.state.updateRestaurants} />
+            updateRestaurants={this.state.updateRestaurants}
+          />
         </div>
         <div>
           <Filter
-            handleSubmit={() => this.handleSubmit}
-            handleChange={() => this.handleChange}
-            value={this.state.value} />
+            onSubmit={this.handleSubmit}
+            handleChange={this.handleChange}
+            inputvalue={this.state.inputvalue}
+          />
         </div>
         <div className="d-flex flex-row justify-content-center">
           <div className="w-25">
-            <RestaurantList restaurants={this.state.restaurants} setAverageRatings={this.setAverageRatings} updateRestaurants={this.updateRestaurants} updateSelectedRestaurant={this.updateSelectedRestaurant} />
+            <RestaurantList restaurants={this.state.restaurants} setAverageRatings={this.setAverageRatings} />
           </div>
           <div className="w-75">
             <div style={{ width: "100vw", height: "100vh" }}>
