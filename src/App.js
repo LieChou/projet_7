@@ -49,7 +49,7 @@ export default class App extends Component {
 
   handleSubmit(e) {
     e.preventDefault();
-    const arrayRestaurant = [];
+    let arrayRestaurant = [];
     this.state.initialRestaurants.map(async (restaurant) => {
       const averageValue = await this.setAverageRatings(restaurant)
 
@@ -65,10 +65,10 @@ export default class App extends Component {
     })
   }
 
+
   render() {
     return (
       <div>
-
         <div>
           <Header
             restaurants={this.state.restaurants}

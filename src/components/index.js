@@ -4,3 +4,4 @@ export { default as RestaurantElement } from './restaurantList/restaurantElement
 export { default as RestaurantComments } from './restaurantComments/RestaurantComments';
 export { default as MapDone } from './restaurantMap/RestaurantsMap';
 export { default as Filter } from './header/filter/Filter';
+export { default as RestaurantModal } from './restaurantList/RestaurantModal';

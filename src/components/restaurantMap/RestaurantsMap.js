@@ -11,22 +11,7 @@ class Map extends Component {
                 lat: 48.856613,
                 lng: 2.352222
             },
-            selectedRestaurant: {
-                "restaurantName": "Angel",
-                "address": "30 rue Nazareth, 75003 Paris",
-                "lat": 48.863700,
-                "long": 2.361090,
-                "ratings": [
-                    {
-                        "stars": 5,
-                        "comment": "Belle cuisine gastronomique"
-                    },
-                    {
-                        "stars": 3,
-                        "comment": "Gastronomique et beaucoup trop cher"
-                    }
-                ]
-            }
+            selectedRestaurant: 0
         }
     }
 
@@ -97,6 +82,7 @@ class Map extends Component {
                                 <h5>
                                     {this.state.selectedRestaurant.restaurantName}
                                 </h5>
+                                <p><strong>Avis des internautes: </strong></p>
                                 {this.promptRatings()}
                             </div>
 
