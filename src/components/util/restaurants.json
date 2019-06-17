@@ -48,18 +48,18 @@
       ]
    },
    {
-      "restaurantName": "Angel",
-      "address": "30 rue Nazareth, 75003 Paris",
-      "lat": 48.863700,
-      "long": 2.361090,
+      "restaurantName": "Hubsy",
+      "address": "41 rue Réaumur, 75003 Paris",
+      "lat": 48.865770,
+      "long": 2.354180,
       "ratings": [
          {
             "stars": 5,
-            "comment": "Belle cuisine gastronomique"
+            "comment": "Equipe très sympa"
          },
          {
             "stars": 3,
-            "comment": "Gastronomique et beaucoup trop cher"
+            "comment": "Endroit parfait pour un moment détente"
          }
       ]
    }

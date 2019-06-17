@@ -1,13 +1,8 @@
 import React, { Component } from 'react';
 import StarRatingComponent from 'react-star-rating-component';
+import RestaurantModal from '../../restaurantModal/RestaurantModal';
 
 export default class RestaurantElement extends Component {
-
-    /*addNewRating = () => {
-        this.props.restaurant.restaurantName
-    }*/
-
-    //addnewComment
 
     render() {
         return (
@@ -21,6 +16,13 @@ export default class RestaurantElement extends Component {
                                 name="AverageRatings"
                                 editing={false}
                                 value={this.props.setAverageRatings(this.props.restaurant)}
+                            />
+                        </div>
+                        <div>
+                            <RestaurantModal
+                                restaurant={this.props.restaurant}
+                                updateRestaurants={this.props.updateRestaurants}
+                                restaurants={this.props.restaurants}
                             />
                         </div>
                     </div>

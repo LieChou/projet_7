@@ -35,7 +35,7 @@ class Map extends Component {
     promptRatings = () => {
         return (
             this.state.selectedRestaurant.ratings.map((rating, index) => (
-                <ul key={rating + index}>
+                <ul key={rating + index} >
                     <li >{rating.stars}
                         <StarRatingComponent
                             name="AverageRatings"
@@ -45,6 +45,15 @@ class Map extends Component {
                     <li >{rating.comment}</li>
                 </ul>
             )))
+    }
+
+    restaurantStreetView = (r) => {
+        let lat = r.lat;
+        let lng = r.long;
+        let restaurantImage = `https://maps.googleapis.com/maps/api/streetview?size=400x300&location=${lat},${lng}&fov=90&heading=235&pitch=10&key=AIzaSyCmj4tmdfPWfODhSUyPkGh7zTqEJzv65gc`
+        return (
+            restaurantImage
+        )
     }
 
     render() {
@@ -67,7 +76,7 @@ class Map extends Component {
                     />
                 ))}
 
-                {this.state.selectedRestaurant ? (
+                {this.state.selectedRestaurant && (
                     <InfoWindow
                         position={{
                             lat: this.state.selectedRestaurant.lat,
@@ -78,18 +87,31 @@ class Map extends Component {
                         }}
                     >
                         <div>
+
                             <div>
-                                <h5>
-                                    {this.state.selectedRestaurant.restaurantName}
-                                </h5>
-                                <p><strong>Avis des internautes: </strong></p>
-                                {this.promptRatings()}
+
+                                <div>
+                                    <div>
+                                        <img
+                                            src={this.restaurantStreetView(this.state.selectedRestaurant)}
+                                            alt="restaurantStreetView"
+                                        >
+                                        </img>
+
+                                    </div><br />
+                                    <h5>
+                                        {this.state.selectedRestaurant.restaurantName}
+                                    </h5>
+                                    <p><strong>Avis des internautes: </strong></p>
+                                    {this.promptRatings()}
+                                </div>
                             </div>
+
 
                         </div>
 
                     </InfoWindow>
-                ) : null
+                )
                 }
 
 

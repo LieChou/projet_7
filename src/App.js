@@ -65,6 +65,12 @@ export default class App extends Component {
     })
   }
 
+  updateRestaurants = (newRestaurants) => {
+    this.setState({
+      restaurants: newRestaurants,
+    })
+  }
+
 
   render() {
     return (
@@ -73,7 +79,6 @@ export default class App extends Component {
           <Header
             restaurants={this.state.restaurants}
             setAverageRatings={this.setAverageRatings}
-            updateRestaurants={this.state.updateRestaurants}
           />
         </div>
         <div>
@@ -85,7 +90,11 @@ export default class App extends Component {
         </div>
         <div className="d-flex flex-row justify-content-center">
           <div className="w-25">
-            <RestaurantList restaurants={this.state.restaurants} setAverageRatings={this.setAverageRatings} />
+            <RestaurantList
+              setAverageRatings={this.setAverageRatings}
+              restaurants={this.state.restaurants}
+              updateRestaurants={this.updateRestaurants}
+            />
           </div>
           <div className="w-75">
             <div style={{ width: "100vw", height: "100vh" }}>

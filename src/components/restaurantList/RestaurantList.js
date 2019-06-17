@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { RestaurantElement, RestaurantModal } from '..';
+import { RestaurantElement } from '..';
 
 export default class RestaurantList extends Component {
 
@@ -12,11 +12,8 @@ export default class RestaurantList extends Component {
                             <RestaurantElement
                                 restaurant={r}
                                 setAverageRatings={() => this.props.setAverageRatings(r)}
-                            />
-                        </div>
-                        <div>
-                            <RestaurantModal
-                                restaurant={r}
+                                updateRestaurants={this.props.updateRestaurants}
+                                restaurants={this.props.restaurants}
                             />
                         </div>
                     </div>
