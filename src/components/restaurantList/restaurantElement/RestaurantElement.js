@@ -4,6 +4,7 @@ import RestaurantModal from '../../restaurantModal/RestaurantModal';
 
 export default class RestaurantElement extends Component {
 
+
     render() {
         return (
             <div className="d-flex flex-column justify-content-center">
@@ -21,8 +22,7 @@ export default class RestaurantElement extends Component {
                         <div>
                             <RestaurantModal
                                 restaurant={this.props.restaurant}
-                                updateRestaurants={this.props.updateRestaurants}
-                                restaurants={this.props.restaurants}
+                                onCommentAdded={this.props.onCommentAdded}
                             />
                         </div>
                     </div>

@@ -1,60 +1,89 @@
 import React, { Component } from 'react';
+import Modal from 'react-modal';
 import { StarRatingEditing } from '..';
 
+const customStyles = {
+    content: {
+        top: '50%',
+        left: '50%',
+        right: 'auto',
+        bottom: 'auto',
+        marginRight: '-50%',
+        width: '500px',
+        transform: 'translate(-50%, -50%)'
+    }
+};
+
+// Make sure to bind modal to your appElement (http://reactcommunity.org/react-modal/accessibility/)
+Modal.setAppElement('#root')
 
 export default class RestaurantModal extends Component {
+    constructor() {
+        super();
 
-    constructor(props) {
-        super(props);
         this.state = {
-            selectedRestaurant: 0,
-            //restaurantRatings: this.props.restaurant.ratings,
-            //restaurants: this.props.restaurants,
-            restaurant: this.props.restaurant
-        }
+            modalIsOpen: false,
+            value: 1
+        };
+
+        this.openModal = this.openModal.bind(this);
+        this.closeModal = this.closeModal.bind(this);
+        this.onSubmit = this.onSubmit.bind(this);
     }
 
-    setSelectedRestaurant = (r) => {
+    openModal() {
+        this.setState({ modalIsOpen: true });
+    }
+
+    closeModal() {
+        this.setState({ modalIsOpen: false });
+    }
+
+    onSubmit() {
+        let newReview = document.getElementById('review').value;
+        console.log(newReview);
+        console.log(this.props.restaurant)
+        this.closeModal()
+        this.props.onCommentAdded(this.props.restaurant.restaurantName, newReview, this.state.value)
+
+    }
+
+    onStarUpdated = (newValue) => {
         this.setState({
-            selectedRestaurant: r,
+            value: newValue
         })
     }
-
 
     render() {
         return (
             <div>
-                <button className="btn btn-primary" type="button" data-toggle="modal" data-target="#uniqueModal" aria-expanded="false" aria-controls="uniqueModal">Ajouter un avis</button>
-                <div className="modal fade" id="uniqueModal" tabIndex="-1" role="dialog" aria-labelledby="uniqueModal">
-                    <div className="modal-dialog modal-dialog-centered" role="document">
-                        <div className="modal-content">
-                            <div className="modal-header">
-                                <h5 className="modal-title" id="addReview">Votre avis sur ce restaurant:</h5>
-                                <button type="button btn-primary btn-small" className="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
-                            <div className="modal-body">
-                                <div id="rating">
-                                    Note : <br />
-                                    <StarRatingEditing
-                                    />
-                                </div>
-                                <div className="form-group">
-                                    <label>Votre commentaire: </label>
-                                    <textarea className="form-control" id="review" row="3"></textarea>
-                                </div>
-                            </div>
-                            <div className="modal-footer">
-                                <button type="button" className="btn btn-secondary" data-dismiss="modal">Fermer</button>
-                                <button type="button" onClick={this.setSelectedRestaurant} className="btn btn-primary">Ajouter</button>
-                            </div>
+                <button className="btn btn-primary" type="button" onClick={this.openModal}>Ajouter un avis </button>
+                <Modal
+                    isOpen={this.state.modalIsOpen}
+                    onRequestClose={this.closeModal}
+                    style={customStyles}
+                    contentLabel="Reusable Modal"
+                >
+
+                    <h5>Votre avis: </h5>
+
+                    <form>
+                        <div id="rating">
+                            Note : <br />
+                            <StarRatingEditing
+                                onStarUpdated={this.onStarUpdated}
+                            />
                         </div>
-                    </div>
-                </div>
-                {console.log(this.state.restaurant)}
+                        <div className="form-group">
+                            <label>Votre commentaire: </label>
+                            <textarea className="form-control" id="review" row="3"></textarea>
+                        </div>
+                    </form>
+                    <button className="btn btn-primary " type="button" onClick={this.closeModal}>Fermer</button>
+                    <button className="btn btn-primary float-right" type="button" onClick={this.onSubmit}>Ajouter</button>
+                </Modal>
             </div>
-        )
+        );
     }
 }
 

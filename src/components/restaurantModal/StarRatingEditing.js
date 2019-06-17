@@ -9,12 +9,12 @@ export default class StarRatingEditing extends Component {
         };
     }
 
-
     onStarClick(nextValue, prevValue, name) {
         console.log('nextValue: %s, prevValue: %s, name: %s,', nextValue, prevValue, name);
         this.setState({
             rating: nextValue
         })
+        this.props.onStarUpdated(nextValue)
     }
 
 

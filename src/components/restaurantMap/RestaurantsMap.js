@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import RestaurantsDatas from '../util/restaurants.json';
 import { GoogleMap, Marker, InfoWindow, withScriptjs, withGoogleMap } from "react-google-maps";
 import StarRatingComponent from 'react-star-rating-component';
 
@@ -36,13 +35,13 @@ class Map extends Component {
         return (
             this.state.selectedRestaurant.ratings.map((rating, index) => (
                 <ul key={rating + index} >
-                    <li >{rating.stars}
+                    <li ><strong>Note:</strong> {rating.stars}
                         <StarRatingComponent
                             name="AverageRatings"
                             editing={false}
                             value={rating.stars}
                         /></li>
-                    <li >{rating.comment}</li>
+                    <li ><strong>Commentaire:</strong> {rating.comment}</li>
                 </ul>
             )))
     }
@@ -63,7 +62,7 @@ class Map extends Component {
                 defaultCenter={this.state.position}
             >
 
-                {RestaurantsDatas.map((r, index) => (
+                {this.props.restaurants.map((r, index) => (
                     <Marker
                         key={r.restaurantName + index}
                         position={{
@@ -115,7 +114,6 @@ class Map extends Component {
                 }
 
 
-
                 {this.state.position && (
                     <Marker
                         position={{
@@ -145,6 +143,7 @@ export default class MapDone extends Component {
                 loadingElement={<div style={{ height: `100%` }} />}
                 containerElement={<div style={{ height: `100%` }} />}
                 mapElement={<div style={{ height: `100%` }} />}
+                restaurants={this.props.restaurants}
             />
         )
     }

@@ -55,8 +55,6 @@ export default class App extends Component {
 
       if (averageValue >= this.state.value) {
         arrayRestaurant.push(restaurant)
-      } else {
-        return;
       }
       this.setState({
         restaurants: arrayRestaurant,
@@ -69,6 +67,17 @@ export default class App extends Component {
     this.setState({
       restaurants: newRestaurants,
     })
+  }
+
+  onCommentAdded = (restaurantName, newReview, newValue) => {
+    this.state.restaurants.find((r) => {
+      return (r.restaurantName === restaurantName)
+    }).ratings.push({ stars: newValue, comment: newReview })
+
+    this.setState({
+      restaurants: this.state.restaurants
+    })
+
   }
 
 
@@ -94,11 +103,14 @@ export default class App extends Component {
               setAverageRatings={this.setAverageRatings}
               restaurants={this.state.restaurants}
               updateRestaurants={this.updateRestaurants}
+              onCommentAdded={this.onCommentAdded}
             />
           </div>
           <div className="w-75">
             <div style={{ width: "100vw", height: "100vh" }}>
-              <MapDone />
+              <MapDone
+                restaurants={this.state.restaurants}
+              />
             </div>
           </div>
         </div>

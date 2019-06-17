@@ -14,6 +14,7 @@ export default class RestaurantList extends Component {
                                 setAverageRatings={() => this.props.setAverageRatings(r)}
                                 updateRestaurants={this.props.updateRestaurants}
                                 restaurants={this.props.restaurants}
+                                onCommentAdded={this.props.onCommentAdded}
                             />
                         </div>
                     </div>
