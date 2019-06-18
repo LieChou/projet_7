@@ -45,7 +45,6 @@ export default class RestaurantModal extends Component {
         console.log(this.props.restaurant)
         this.closeModal()
         this.props.onCommentAdded(this.props.restaurant.restaurantName, newReview, this.state.value)
-
     }
 
     onStarUpdated = (newValue) => {
@@ -53,6 +52,7 @@ export default class RestaurantModal extends Component {
             value: newValue
         })
     }
+
 
     render() {
         return (

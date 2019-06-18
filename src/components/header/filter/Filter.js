@@ -6,7 +6,7 @@ const Filter = (props) => {
         <div className="d-flex flex-row ml-2">
             <form onSubmit={props.onSubmit}>
                 <label>
-                    <select inputvalue={props.inputvalue} onChange={props.handleChange}>
+                    <select inputvalue={props.inputvalue} onChange={props.handleChange} className="btn btn-outline-primary">
                         <option value="5">5 étoiles et plus</option>
                         <option value="4">4 étoiles et plus</option>
                         <option value="3">3 étoiles et plus</option>
@@ -14,7 +14,7 @@ const Filter = (props) => {
                         <option value="1">1 étoile et plus</option>
                     </select>
                 </label>
-                <input className="ml-2" type="submit" value="Submit" />
+                <input className="btn  btn-outline-primary ml-2 mt-2 mb-2" type="submit" value="Submit" />
             </form>
         </div>
     );

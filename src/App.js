@@ -35,10 +35,15 @@ export default class App extends Component {
       sum += Rating[i]
     }
     let average = sum / length;
-    return (
-      average
-    )
+    return average
+
+    //(Number.parseFloat(average).toFixed(1))
+
+    /*function financial(x) {
+      return Number.parseFloat(x).toFixed(2);
+    }*/
   }
+
 
   handleChange(event) {
     let inputvalue = event.target.value
@@ -82,6 +87,7 @@ export default class App extends Component {
 
 
   render() {
+
     return (
       <div>
         <div>
@@ -110,6 +116,8 @@ export default class App extends Component {
             <div style={{ width: "100vw", height: "100vh" }}>
               <MapDone
                 restaurants={this.state.restaurants}
+                updateRestaurants={this.updateRestaurants}
+                onCommentAdded={this.onCommentAdded}
               />
             </div>
           </div>

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { GoogleMap, Marker, InfoWindow, withScriptjs, withGoogleMap } from "react-google-maps";
 import StarRatingComponent from 'react-star-rating-component';
+import { AddRestaurantModal } from '..';
 
 class Map extends Component {
     constructor(props) {
@@ -10,7 +11,10 @@ class Map extends Component {
                 lat: 48.856613,
                 lng: 2.352222
             },
-            selectedRestaurant: 0
+            selectedRestaurant: 0,
+            selectedPlace: false,
+            selectedPlaceLat: 0,
+            selectedPlaceLng: 0
         }
     }
 
@@ -55,11 +59,31 @@ class Map extends Component {
         )
     }
 
+    handleClickOnMap = (e) => {
+        let lat = e.latLng.lat();
+        let lng = e.latLng.lng();
+        console.log(lat);
+        console.log(lng);
+        this.setState({
+            selectedPlace: true,
+            selectedPlaceLat: lat,
+            selectedPlaceLng: lng
+        })
+
+    }
+
+    onCloseClickonMap = () => {
+        this.setState({
+            selectedPlace: false
+        })
+    }
+
     render() {
         return (
             <GoogleMap
                 defaultZoom={12}
                 defaultCenter={this.state.position}
+                onClick={this.handleClickOnMap}
             >
 
                 {this.props.restaurants.map((r, index) => (
@@ -74,6 +98,17 @@ class Map extends Component {
                         }}
                     />
                 ))}
+
+                {this.state.selectedPlace && (
+                    <AddRestaurantModal
+                        updateRestaurants={this.props.updateRestaurants}
+                        restaurants={this.props.restaurants}
+                        onCommentAdded={this.props.onCommentAdded}
+                        selectedPlaceLat={this.state.selectedPlaceLat}
+                        selectedPlaceLng={this.state.selectedPlaceLng}
+                        onCloseClick={this.onCloseClickonMap}
+                    />
+                )}
 
                 {this.state.selectedRestaurant && (
                     <InfoWindow
@@ -144,6 +179,8 @@ export default class MapDone extends Component {
                 containerElement={<div style={{ height: `100%` }} />}
                 mapElement={<div style={{ height: `100%` }} />}
                 restaurants={this.props.restaurants}
+                updateRestaurants={this.props.updateRestaurants}
+                onCommentAdded={this.props.onCommentAdded}
             />
         )
     }
