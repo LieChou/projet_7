@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { SearchBar } from '..';
 
 export default class Header extends Component {
 
@@ -15,7 +16,11 @@ export default class Header extends Component {
                             <a className="nav-link" href="/">Home</a>
                         </li>
                     </ul>
-
+                </div>
+                <div className="w-50">
+                    <SearchBar
+                        updateRestaurants={this.props.updateRestaurants}
+                    />
                 </div>
             </nav>
         )

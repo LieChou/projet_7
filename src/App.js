@@ -36,14 +36,7 @@ export default class App extends Component {
     }
     let average = sum / length;
     return average
-
-    //(Number.parseFloat(average).toFixed(1))
-
-    /*function financial(x) {
-      return Number.parseFloat(x).toFixed(2);
-    }*/
   }
-
 
   handleChange(event) {
     let inputvalue = event.target.value
@@ -94,6 +87,7 @@ export default class App extends Component {
           <Header
             restaurants={this.state.restaurants}
             setAverageRatings={this.setAverageRatings}
+            updateRestaurants={this.props.updateRestaurants}
           />
         </div>
         <div>
@@ -103,7 +97,7 @@ export default class App extends Component {
             inputvalue={this.state.inputvalue}
           />
         </div>
-        <div className="d-flex flex-row justify-content-center">
+        <div className="d-flex flex-row">
           <div className="w-25">
             <RestaurantList
               setAverageRatings={this.setAverageRatings}

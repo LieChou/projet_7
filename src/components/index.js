@@ -6,3 +6,4 @@ export { default as Filter } from './header/filter/Filter';
 export { default as RestaurantModal } from './restaurantModal/RestaurantModal';
 export { default as StarRatingEditing } from './restaurantModal/StarRatingEditing';
 export { default as AddRestaurantModal } from './restaurantMap/addRestaurantModal';
+export { default as SearchBar } from './header/searchBar/SearchBar';

@@ -5,7 +5,7 @@ export default class RestaurantList extends Component {
 
     render() {
         return (
-            <div className="d-flex flex-column justify-content-center">
+            <div className="d-flex flex-column">
                 {this.props.restaurants.map((r, index) => (
                     <div key={r.restaurantName + index}>
                         <div>
