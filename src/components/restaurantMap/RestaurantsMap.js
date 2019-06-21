@@ -29,58 +29,67 @@ class Map extends Component {
         })
     }
 
+
+    geolocation = () => {
+        return (
+            navigator.geolocation.getCurrentPosition(location => {
+                this.setState({
+                    position: {
+                        lat: location.coords.latitude,
+                        lng: location.coords.longitude
+                    }
+                })
+                console.log(this.state.position)
+            })
+        )
+    }
+
+    getPlacesData = () => {
+        setTimeout(() => {
+            //API Google-Places-Search-Nearby query based on geolocalisation if accepted
+            let lat = this.state.position.lat;
+            let lng = this.state.position.lng;
+            console.log(this.state.position)
+            axios.get(`${'https://cors-anywhere.herokuapp.com/'}https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${lat},${lng}&radius=1500&type=restaurant&key=AIzaSyActrrpA2NipKHnS8ksfgblNKuMcJiB_lE`)
+                .then(response => response.data.results)
+                .then(placesApi => {
+                    const places = placesApi.map(p => ({
+                        restaurantName: p.name,
+                        place_id: p.place_id,
+                        lat: p.geometry.location.lat,
+                        long: p.geometry.location.lng,
+                        ratings: [
+                            {
+                                "stars": 3,
+                                "comment": "Une minuscule pizzeria délicieuse cachée juste à côté du Sacré choeur !"
+                            },
+                            {
+                                "stars": 1,
+                                "comment": "J'ai trouvé ça correct, sans plus"
+                            }
+                        ],
+                    }))
+                    const newRestaurants = this.props.restaurants.concat(places);
+                    this.props.updateRestaurants(newRestaurants);
+                    console.log(newRestaurants);
+                })
+                .catch(err => {
+                    console.log(err);
+                });
+        }, 3000)
+    }
+
+    /*getPlacesratings = ()=>{
+        setTimeout(()=>{
+
+        },3000)
+    }*/
+
     componentDidMount() {
-
-        navigator.geolocation.getCurrentPosition(location => {
-            this.setState({
-                position: {
-                    lat: location.coords.latitude,
-                    lng: location.coords.longitude
-                }
-            })
-        });
-
-        let lat = this.state.position.lat;
-        let lng = this.state.position.lng;
-        axios.get(`${'https://cors-anywhere.herokuapp.com/'}https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${lat},${lng}&radius=1500&type=restaurant&key=AIzaSyActrrpA2NipKHnS8ksfgblNKuMcJiB_lE`)
-            .then(response => response.data.results)
-            .then(placesApi => {
-                const places = placesApi.map(p => ({
-                    restaurantName: p.name,
-                    lat: p.geometry.location.lat,
-                    long: p.geometry.location.lng,
-                    ratings: [
-                        {
-                            "stars": 3,
-                            "comment": "Une minuscule pizzeria délicieuse cachée juste à côté du Sacré choeur !"
-                        },
-                        {
-                            "stars": 1,
-                            "comment": "J'ai trouvé ça correct, sans plus"
-                        }
-                    ]
-                }))
-                this.props.updateRestaurants(places);
-            })
-            .catch(err => {
-                console.log(err);
-            });
-
-        //this.updateRestaurantsWithPlaces();
+        this.getPlacesData();
+        //this.getPlacesRatings();
     }
 
-    /*
-    updateRestaurantsWithPlaces = () => {
-        let newArrayPlaces = this.state.queryPlaces.map((place) => (
-            this.props.restaurants.push({
-                restaurantName: place.name,
-                lat: place.geometry.location.lat,
-                long: place.geometry.location.lng,
-            })
-        ))
-        this.props.updateRestaurants(newArrayPlaces)
-    }
-    */
 
     promptRatings = () => {
         return (
@@ -129,9 +138,10 @@ class Map extends Component {
         return (
 
             < GoogleMap
-                defaultZoom={12}
-                defaultCenter={this.state.position}
+                defaultZoom={13}
+                defaultCenter={{ lat: this.state.position.lat, lng: this.state.position.lng }}
                 onClick={this.handleClickOnMap}
+                geolocation={this.geolocation()}
             >
 
                 {
@@ -222,6 +232,7 @@ class Map extends Component {
 const WrappedMap = withScriptjs(withGoogleMap(Map))
 
 export default class MapDone extends Component {
+
     render() {
         return (
             <WrappedMap
@@ -233,6 +244,7 @@ export default class MapDone extends Component {
                 restaurants={this.props.restaurants}
                 updateRestaurants={this.props.updateRestaurants}
                 onCommentAdded={this.props.onCommentAdded}
+
             />
         )
     }
