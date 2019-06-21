@@ -53,7 +53,7 @@ export default class RestaurantModal extends Component {
         })
     }
 
-
+    
     render() {
         return (
             <div>

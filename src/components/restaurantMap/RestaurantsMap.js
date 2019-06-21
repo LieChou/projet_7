@@ -49,7 +49,6 @@ class Map extends Component {
             //API Google-Places-Search-Nearby query based on geolocalisation if accepted
             let lat = this.state.position.lat;
             let lng = this.state.position.lng;
-            console.log(this.state.position)
             axios.get(`${'https://cors-anywhere.herokuapp.com/'}https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${lat},${lng}&radius=1500&type=restaurant&key=AIzaSyActrrpA2NipKHnS8ksfgblNKuMcJiB_lE`)
                 .then(response => response.data.results)
                 .then(placesApi => {
@@ -58,18 +57,9 @@ class Map extends Component {
                         place_id: p.place_id,
                         lat: p.geometry.location.lat,
                         long: p.geometry.location.lng,
-                        ratings: [
-                            {
-                                "stars": 3,
-                                "comment": "Une minuscule pizzeria délicieuse cachée juste à côté du Sacré choeur !"
-                            },
-                            {
-                                "stars": 1,
-                                "comment": "J'ai trouvé ça correct, sans plus"
-                            }
-                        ],
+                        ratings: this.getPlacesRatings(p.place_id)
                     }))
-                    const newRestaurants = this.props.restaurants.concat(places);
+                    const newRestaurants = places //this.props.restaurants.concat(places);
                     this.props.updateRestaurants(newRestaurants);
                     console.log(newRestaurants);
                 })
@@ -79,15 +69,19 @@ class Map extends Component {
         }, 3000)
     }
 
-    /*getPlacesratings = ()=>{
-        setTimeout(()=>{
-
-        },3000)
-    }*/
+    getPlacesRatings = (place_id) => {
+        setTimeout(() => {
+            let placeId = place_id
+            axios.get(`${'https://cors-anywhere.herokuapp.com/'}https://maps.googleapis.com/maps/api/place/details/json?&key=AIzaSyActrrpA2NipKHnS8ksfgblNKuMcJiB_lE&placeid=${placeId}&fields=reviews/rating,reviews/text`)
+                .then(response => response.result.reviews)
+                .catch(err => {
+                    console.log(err);
+                });
+        }, 3000)
+    }
 
     componentDidMount() {
         this.getPlacesData();
-        //this.getPlacesRatings();
     }
 
 
@@ -138,7 +132,7 @@ class Map extends Component {
         return (
 
             < GoogleMap
-                defaultZoom={13}
+                defaultZoom={12}
                 defaultCenter={{ lat: this.state.position.lat, lng: this.state.position.lng }}
                 onClick={this.handleClickOnMap}
                 geolocation={this.geolocation()}
