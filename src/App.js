@@ -8,12 +8,13 @@ export default class App extends Component {
     super(props);
     this.state = {
       restaurants: RestaurantsDatas,
-      initialRestaurants: RestaurantsDatas,
       loaded: false,
       selectedRestaurants: [],
       averageValue: [],
       value: 5,
-      inputvalue: 5
+      inputvalue: 5,
+      ratings : [],
+      placeId: 0
     }
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
@@ -30,6 +31,9 @@ export default class App extends Component {
       rating.stars
     ));
     let length = Rating.length;
+    if (length === 0) {
+      return 0
+    }
     let sum = 0;
     for (let i = 0; i < length; i++) {
       sum += Rating[i]
@@ -48,7 +52,8 @@ export default class App extends Component {
   handleSubmit(e) {
     e.preventDefault();
     let arrayRestaurant = [];
-    this.state.initialRestaurants.map(async (restaurant) => {
+    let initialRestaurants = this.state.restaurants;
+    initialRestaurants.map(async (restaurant) => {
       const averageValue = await this.setAverageRatings(restaurant)
 
       if (averageValue >= this.state.value) {
@@ -67,6 +72,23 @@ export default class App extends Component {
     })
   }
 
+    updateRatings = (placeId, reviews) => {
+
+      let placeIdRestaurant = this.state.restaurants.find((restaurant)=>{
+        return (restaurant.place_id === placeId)
+      })
+      
+      reviews.forEach((review)=>{
+        placeIdRestaurant.ratings.push(review)
+      })
+      console.log(placeIdRestaurant.ratings)  
+      this.setState({
+        restaurants: this.state.restaurants
+      })
+      console.log(this.state.restaurants)
+    }
+  
+
   onCommentAdded = (restaurantName, newReview, newValue) => {
     this.state.restaurants.find((r) => {
       return (r.restaurantName === restaurantName)
@@ -75,7 +97,6 @@ export default class App extends Component {
     this.setState({
       restaurants: this.state.restaurants
     })
-
   }
 
 
@@ -112,6 +133,7 @@ export default class App extends Component {
                 restaurants={this.state.restaurants}
                 updateRestaurants={this.updateRestaurants}
                 onCommentAdded={this.onCommentAdded}
+                updateRatings={this.updateRatings}
               />
             </div>
           </div>

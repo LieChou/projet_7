@@ -39,7 +39,6 @@ class Map extends Component {
                         lng: location.coords.longitude
                     }
                 })
-                console.log(this.state.position)
             })
         )
     }
@@ -57,27 +56,36 @@ class Map extends Component {
                         place_id: p.place_id,
                         lat: p.geometry.location.lat,
                         long: p.geometry.location.lng,
-                        ratings: this.getPlacesRatings(p.place_id)
+                        ratings: []
                     }))
-                    const newRestaurants = places //this.props.restaurants.concat(places);
+                    places.forEach(p => this.getPlacesRatings(p.place_id))
+                    const newRestaurants = this.props.restaurants.concat(places);
                     this.props.updateRestaurants(newRestaurants);
                     console.log(newRestaurants);
                 })
                 .catch(err => {
                     console.log(err);
                 });
-        }, 3000)
+        }, 2000)
     }
 
     getPlacesRatings = (place_id) => {
         setTimeout(() => {
             let placeId = place_id
             axios.get(`${'https://cors-anywhere.herokuapp.com/'}https://maps.googleapis.com/maps/api/place/details/json?&key=AIzaSyActrrpA2NipKHnS8ksfgblNKuMcJiB_lE&placeid=${placeId}&fields=reviews/rating,reviews/text`)
-                .then(response => response.result.reviews)
+                .then(response => response.data.result.reviews)
+                .then(reviews => {
+                  const returnReviews = reviews.map(r => ({
+                        stars: r.rating,
+                        comment: r.text
+                    }))
+                    console.log(returnReviews)
+                    this.props.updateRatings(place_id, returnReviews);
+                })
                 .catch(err => {
                     console.log(err);
                 });
-        }, 3000)
+        }, 2000)
     }
 
     componentDidMount() {
@@ -238,6 +246,7 @@ export default class MapDone extends Component {
                 restaurants={this.props.restaurants}
                 updateRestaurants={this.props.updateRestaurants}
                 onCommentAdded={this.props.onCommentAdded}
+                updateRatings={this.props.updateRatings}
 
             />
         )
