@@ -111,7 +111,7 @@ class Map extends Component {
     restaurantStreetView = (r) => {
         let lat = r.lat;
         let lng = r.long;
-        let restaurantImage = `https://maps.googleapis.com/maps/api/streetview?size=400x300&location=${lat},${lng}&fov=90&heading=235&pitch=10&key=AIzaSyCmj4tmdfPWfODhSUyPkGh7zTqEJzv65gc`
+        let restaurantImage = `https://maps.googleapis.com/maps/api/streetview?size=600x300&location=${lat},${lng}&fov=90&heading=235&pitch=10&key=AIzaSyCmj4tmdfPWfODhSUyPkGh7zTqEJzv65gc`
         return (
             restaurantImage
         )
@@ -199,7 +199,7 @@ class Map extends Component {
                                         <h5 className="text-center">
                                             {this.state.selectedRestaurant.restaurantName}
                                         </h5>
-                                        <p><strong>Avis des internautes: </strong></p>
+                                        <p className="w-500"><strong>Avis des internautes: </strong></p>
                                         {this.promptRatings()}
                                     </div>
                                 </div>
