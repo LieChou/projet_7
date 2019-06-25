@@ -8,6 +8,7 @@ export default class App extends Component {
     super(props);
     this.state = {
       restaurants: RestaurantsDatas,
+      //initialRestaurants: RestaurantsDatas,
       loaded: false,
       selectedRestaurants: [],
       averageValue: [],
@@ -104,6 +105,7 @@ export default class App extends Component {
 
     return (
       <div>
+
         <div>
           <Header
             restaurants={this.state.restaurants}
@@ -111,29 +113,34 @@ export default class App extends Component {
             updateRestaurants={this.props.updateRestaurants}
           />
         </div>
-        <div>
-          <Filter
-            onSubmit={this.handleSubmit}
-            handleChange={this.handleChange}
-            inputvalue={this.state.inputvalue}
-          />
-        </div>
-        <div className="d-flex flex-row">
-          <div className="w-25">
-            <RestaurantList
-              setAverageRatings={this.setAverageRatings}
-              restaurants={this.state.restaurants}
-              updateRestaurants={this.updateRestaurants}
-              onCommentAdded={this.onCommentAdded}
-            />
-          </div>
-          <div className="w-75">
+
+        <div className="row">
+          <div className="col-sm-8">
             <div style={{ width: "100vw", height: "100vh" }}>
               <MapDone
                 restaurants={this.state.restaurants}
                 updateRestaurants={this.updateRestaurants}
                 onCommentAdded={this.onCommentAdded}
                 updateRatings={this.updateRatings}
+              />
+            </div>
+          </div>
+
+          <div className="col-sm-4">
+            <div className="d-flex flex-row col-sm-12 bg-white m-2">
+              <Filter
+                onSubmit={this.handleSubmit}
+                handleChange={this.handleChange}
+                inputvalue={this.state.inputvalue}
+              />
+            </div>
+
+            <div>
+              <RestaurantList
+                setAverageRatings={this.setAverageRatings}
+                restaurants={this.state.restaurants}
+                updateRestaurants={this.updateRestaurants}
+                onCommentAdded={this.onCommentAdded}
               />
             </div>
           </div>

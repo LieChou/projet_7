@@ -5,7 +5,7 @@ export default class RestaurantList extends Component {
 
     render() {
         return (
-            <div className="d-flex flex-column">
+            <div className="d-flex flex-column addScrollBar p-0 ml-2">
                 {this.props.restaurants.map((r, index) => (
                     <div key={r.restaurantName + index}>
                         <div>

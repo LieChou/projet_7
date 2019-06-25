@@ -28,3 +28,8 @@ code {
   color: #aaa;
 }
 
+.addScrollBar{
+  height:700px;
+  overflow-y: scroll;
+}
+
