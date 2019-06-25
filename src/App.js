@@ -8,7 +8,7 @@ export default class App extends Component {
     super(props);
     this.state = {
       restaurants: RestaurantsDatas,
-      //initialRestaurants: RestaurantsDatas,
+      initialRestaurants: RestaurantsDatas,
       loaded: false,
       selectedRestaurants: [],
       averageValue: [],
@@ -53,7 +53,7 @@ export default class App extends Component {
   handleSubmit(e) {
     e.preventDefault();
     let arrayRestaurant = [];
-    let initialRestaurants = this.state.restaurants;
+    let initialRestaurants = this.state.initialRestaurants;
     initialRestaurants.map(async (restaurant) => {
       const averageValue = await this.setAverageRatings(restaurant)
 
@@ -65,11 +65,14 @@ export default class App extends Component {
         loaded: true
       })
     })
+
+    console.log(this.state.restaurants)
   }
 
   updateRestaurants = (newRestaurants) => {
     this.setState({
       restaurants: newRestaurants,
+      initialRestaurants: newRestaurants
     })
   }
 
@@ -82,11 +85,9 @@ export default class App extends Component {
       reviews.forEach((review)=>{
         placeIdRestaurant.ratings.push(review)
       })
-      console.log(placeIdRestaurant.ratings)  
       this.setState({
         restaurants: this.state.restaurants
       })
-      console.log(this.state.restaurants)
     }
   
 

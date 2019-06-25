@@ -120,8 +120,6 @@ class Map extends Component {
     handleClickOnMap = (e) => {
         let lat = e.latLng.lat();
         let lng = e.latLng.lng();
-        console.log(lat);
-        console.log(lng);
         this.setState({
             selectedPlace: true,
             selectedPlaceLat: lat,
