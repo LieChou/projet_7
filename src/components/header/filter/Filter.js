@@ -14,7 +14,7 @@ const Filter = (props) => {
                         <option value="1">1 étoile et plus</option>
                     </select>
                 </label>
-                <input className="btn  btn-primary ml-2 mt-2 mb-2" type="submit" value="Submit" />
+                <input className="btn  btn-primary ml-2 mt-2 mb-2" type="submit" value="Filtrer" />
             </form>
         </div>
     );

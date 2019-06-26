@@ -15,6 +15,7 @@ export default class RestaurantList extends Component {
                                 updateRestaurants={this.props.updateRestaurants}
                                 restaurants={this.props.restaurants}
                                 onCommentAdded={this.props.onCommentAdded}
+                                onClick={this.props.onClickElement}
                             />
                         </div>
                     </div>

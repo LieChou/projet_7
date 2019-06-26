@@ -10,21 +10,15 @@ export default class App extends Component {
       restaurants: RestaurantsDatas,
       initialRestaurants: RestaurantsDatas,
       loaded: false,
-      selectedRestaurants: [],
+      selectedRestaurant: null,
       averageValue: [],
       value: 5,
       inputvalue: 5,
-      ratings : [],
+      ratings: [],
       placeId: 0
     }
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
-  }
-
-  updateSelectedRestaurant = (index) => {
-    this.setState({
-      selectedRestaurant: index
-    })
   }
 
   setAverageRatings = (r) => {
@@ -74,22 +68,23 @@ export default class App extends Component {
       restaurants: newRestaurants,
       initialRestaurants: newRestaurants
     })
+    console.log(this.state.restaurants)
   }
 
-    updateRatings = (placeId, reviews) => {
+  updateRatings = (placeId, reviews) => {
 
-      let placeIdRestaurant = this.state.restaurants.find((restaurant)=>{
-        return (restaurant.place_id === placeId)
-      })
-      
-      reviews.forEach((review)=>{
-        placeIdRestaurant.ratings.push(review)
-      })
-      this.setState({
-        restaurants: this.state.restaurants
-      })
-    }
-  
+    let placeIdRestaurant = this.state.restaurants.find((restaurant) => {
+      return (restaurant.place_id === placeId)
+    })
+
+    reviews.forEach((review) => {
+      placeIdRestaurant.ratings.push(review)
+    })
+    this.setState({
+      restaurants: this.state.restaurants
+    })
+  }
+
 
   onCommentAdded = (restaurantName, newReview, newValue) => {
     this.state.restaurants.find((r) => {
@@ -101,6 +96,12 @@ export default class App extends Component {
     })
   }
 
+  onClickElement = (restaurant) => {
+    console.log(restaurant);
+    this.setState({
+      selectedRestaurant: restaurant
+    })
+  }
 
   render() {
 
@@ -122,7 +123,10 @@ export default class App extends Component {
                 restaurants={this.state.restaurants}
                 updateRestaurants={this.updateRestaurants}
                 onCommentAdded={this.onCommentAdded}
+
                 updateRatings={this.updateRatings}
+                selectedRestaurant={this.state.selectedRestaurant}
+                setSelectedRestaurant={this.onClickElement}
               />
             </div>
           </div>
@@ -142,6 +146,7 @@ export default class App extends Component {
                 restaurants={this.state.restaurants}
                 updateRestaurants={this.updateRestaurants}
                 onCommentAdded={this.onCommentAdded}
+                onClickElement={this.onClickElement}
               />
             </div>
           </div>

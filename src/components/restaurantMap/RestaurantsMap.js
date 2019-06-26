@@ -13,7 +13,6 @@ class Map extends Component {
                 lat: 48.856613,
                 lng: 2.352222
             },
-            selectedRestaurant: 0,
             selectedPlace: false,
             selectedPlaceLat: 0,
             selectedPlaceLng: 0,
@@ -21,14 +20,8 @@ class Map extends Component {
             placesApi: [],
             apiIsLoaded: false
         }
+        this.geolocation()
     }
-
-    setSelectedRestaurant = (r) => {
-        this.setState({
-            selectedRestaurant: r,
-        })
-    }
-
 
     geolocation = () => {
         return (
@@ -39,6 +32,10 @@ class Map extends Component {
                         lng: location.coords.longitude
                     }
                 })
+                this.getPlacesData();
+            }, error => {
+                console.warn(`ERREUR (${error.code}): ${error.message}`);
+                this.getPlacesData();
             })
         )
     }
@@ -61,7 +58,6 @@ class Map extends Component {
                     places.forEach(p => this.getPlacesRatings(p.place_id))
                     const newRestaurants = this.props.restaurants.concat(places);
                     this.props.updateRestaurants(newRestaurants);
-                    console.log(newRestaurants);
                 })
                 .catch(err => {
                     console.log(err);
@@ -75,11 +71,10 @@ class Map extends Component {
             axios.get(`${'https://cors-anywhere.herokuapp.com/'}https://maps.googleapis.com/maps/api/place/details/json?&key=AIzaSyActrrpA2NipKHnS8ksfgblNKuMcJiB_lE&placeid=${placeId}&fields=reviews/rating,reviews/text`)
                 .then(response => response.data.result.reviews)
                 .then(reviews => {
-                  const returnReviews = reviews.map(r => ({
+                    const returnReviews = reviews.map(r => ({
                         stars: r.rating,
                         comment: r.text
                     }))
-                    console.log(returnReviews)
                     this.props.updateRatings(place_id, returnReviews);
                 })
                 .catch(err => {
@@ -88,14 +83,14 @@ class Map extends Component {
         }, 2000)
     }
 
-    componentDidMount() {
-        this.getPlacesData();
-    }
+    // componentDidMount() {
+    //     this.getPlacesData();
+    // }
 
 
     promptRatings = () => {
         return (
-            this.state.selectedRestaurant.ratings.map((rating, index) => (
+            this.props.selectedRestaurant.ratings.map((rating, index) => (
                 <ul key={rating + index} >
                     <li ><strong>Note:</strong> {rating.stars}
                         <StarRatingComponent
@@ -127,6 +122,23 @@ class Map extends Component {
         })
     }
 
+    handleGeocodingOnModal = (inputAddress, createNewArrayRestaurants) => {
+        axios.get(`${'https://cors-anywhere.herokuapp.com/'}https://maps.googleapis.com/maps/api/geocode/json?address=${inputAddress}&key=AIzaSyActrrpA2NipKHnS8ksfgblNKuMcJiB_lE`)
+            .then(response => response.data.results[0].geometry.location)
+            .then(location => {
+                this.setState({
+                    selectedPlaceLat: location.lat,
+                    selectedPlaceLng: location.lng,
+                })
+                createNewArrayRestaurants(inputAddress, location.lat, location.lng)
+            })
+            .catch(err => {
+                console.log(err);
+            });
+        console.log(this.state.selectedPlaceLat)
+
+    }
+
     onCloseClickonMap = () => {
         this.setState({
             selectedPlace: false
@@ -141,7 +153,7 @@ class Map extends Component {
                 defaultZoom={12}
                 defaultCenter={{ lat: this.state.position.lat, lng: this.state.position.lng }}
                 onClick={this.handleClickOnMap}
-                geolocation={this.geolocation()}
+            //geolocation={this.geolocation()}
             >
 
                 {
@@ -153,10 +165,12 @@ class Map extends Component {
                                 lng: r.long
                             }}
                             onClick={() => {
-                                this.setSelectedRestaurant(r);
+                                this.props.setSelectedRestaurant(r);
                             }}
+
                         />
                     ))
+
                 }
 
                 {
@@ -168,19 +182,20 @@ class Map extends Component {
                             selectedPlaceLat={this.state.selectedPlaceLat}
                             selectedPlaceLng={this.state.selectedPlaceLng}
                             onCloseClick={this.onCloseClickonMap}
+                            handleGeocodingOnModal={this.handleGeocodingOnModal}
                         />
                     )
                 }
 
                 {
-                    this.state.selectedRestaurant && (
+                    this.props.selectedRestaurant && (
                         <InfoWindow
                             position={{
-                                lat: this.state.selectedRestaurant.lat,
-                                lng: this.state.selectedRestaurant.long
+                                lat: this.props.selectedRestaurant.lat,
+                                lng: this.props.selectedRestaurant.long
                             }}
                             onCloseClick={() => {
-                                this.setSelectedRestaurant(null);
+                                this.props.setSelectedRestaurant(null);
                             }}
                         >
                             <div>
@@ -188,14 +203,14 @@ class Map extends Component {
                                     <div>
                                         <div>
                                             <img
-                                                src={this.restaurantStreetView(this.state.selectedRestaurant)}
+                                                src={this.restaurantStreetView(this.props.selectedRestaurant)}
                                                 alt="restaurantStreetView"
                                             >
                                             </img>
 
                                         </div><br />
                                         <h5 className="text-center">
-                                            {this.state.selectedRestaurant.restaurantName}
+                                            {this.props.selectedRestaurant.restaurantName}
                                         </h5>
                                         <p className="w-500"><strong>Avis des internautes: </strong></p>
                                         {this.promptRatings()}
@@ -245,7 +260,8 @@ export default class MapDone extends Component {
                 updateRestaurants={this.props.updateRestaurants}
                 onCommentAdded={this.props.onCommentAdded}
                 updateRatings={this.props.updateRatings}
-
+                selectedRestaurant={this.props.selectedRestaurant}
+                setSelectedRestaurant={this.props.setSelectedRestaurant}
             />
         )
     }

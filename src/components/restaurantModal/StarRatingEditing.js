@@ -42,24 +42,20 @@ export default class StarRatingEditing extends Component {
                 <StarRatingComponent
                     name="StarRatingEditable"
                     starColor="#ffb400"
-                    //emptyStarColor="#ffb400"
                     value={rating_half_star}
                     onStarClick={this.onStarClickHalfStar.bind(this)}
-                /*renderStarIcon={(index, value) => {
-                    return (
+                    emptyStarColor="#ffb400"
+                    renderStarIcon={(index, value) =>
                         <span>
                             <i className={index <= value ? 'fas fa-star' : 'far fa-star'} />
                         </span>
-                    );
-                }}
-                renderStarIconHalf={() => {
-                    return (
+                    }
+                    renderStarIconHalf={() =>
                         <span>
-                            <span style={{ position: 'absolute' }}><i className="far fa-star" /></span>
+                            <span style={{position: 'absolute'}}><i className="far fa-star" /></span>
                             <span><i className="fas fa-star-half" /></span>
                         </span>
-                    );
-                }}*/
+                    }
                 />
             </div>
 

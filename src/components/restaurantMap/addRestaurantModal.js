@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Modal from 'react-modal';
 import { StarRatingEditing } from '..';
-
+import axios from 'axios';
 
 const customStyles = {
     content: {
@@ -24,8 +24,9 @@ export default class AddRestaurantModal extends Component {
 
         this.state = {
             modalIsOpen: true,
-            value: 1
-        };
+            value: 1,
+            address:'Vous avez cliqué sur'
+            };
 
         this.openModal = this.openModal.bind(this);
         this.closeModal = this.closeModal.bind(this);
@@ -42,41 +43,54 @@ export default class AddRestaurantModal extends Component {
     }
 
     onSubmit() {
-        let newRestaurantName = document.getElementById('restaurantName').value;
-        let newRestaurantAddress = document.getElementById('restaurantAdress').value;
-        let newRestaurantLat = this.props.selectedPlaceLat;
-        let newRestaurantLng = this.props.selectedPlaceLng;
-        let newRestaurantRatings = this.state.value;
-        let newRestaurantComment = document.getElementById('review').value;
+        let newRestaurantAddress = document.getElementById('restaurantAddress').value;
 
-        this.createNewArrayRestaurants(newRestaurantName, newRestaurantAddress, newRestaurantLat,
-            newRestaurantLng, newRestaurantRatings, newRestaurantComment);
-
-        this.closeModal();
+        console.log(newRestaurantAddress)
+        this.props.handleGeocodingOnModal(newRestaurantAddress, this.createNewArrayRestaurants)        
     }
 
-    createNewArrayRestaurants = (newRestaurantName, newRestaurantAddress, newRestaurantLat,
-        newRestaurantLng, newRestaurantRatings, newRestaurantComment) => {
+    createNewArrayRestaurants = (newRestaurantAddress, newRestaurantLat, newRestaurantLng) => {
+        let newRestaurantName = document.getElementById('restaurantName').value;
+        let newRestaurantComment = document.getElementById('review').value;
+        let newRestaurantRatings = this.state.value;
+
         this.props.restaurants.push({
             restaurantName: newRestaurantName,
             address: newRestaurantAddress,
             lat: newRestaurantLat,
-            long: newRestaurantLng,
+            long: newRestaurantLng, 
             ratings: [{
                 stars: newRestaurantRatings,
                 comment: newRestaurantComment
             }]
         })
-        console.log(this.props.restaurants)
         let newArrayRestaurants = [];
         newArrayRestaurants = this.props.restaurants
         this.props.updateRestaurants(newArrayRestaurants);
+        this.closeModal();
     }
 
     onStarUpdated = (newValue) => {
         this.setState({
             value: newValue
         })
+    }
+
+    componentDidMount(){
+        this.reverseGeocoding();
+    }
+
+    reverseGeocoding = () => {
+        let lat = this.props.selectedPlaceLat;
+        let lng = this.props.selectedPlaceLng;
+
+        axios.get(`${'https://cors-anywhere.herokuapp.com/'}https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&key=AIzaSyActrrpA2NipKHnS8ksfgblNKuMcJiB_lE`)
+            .then(response=>response.data.results[0].formatted_address)
+            .then(address =>this.setState({ address }))
+            .then(console.log(this.state.address))
+            .catch(err => {
+                console.log(err);
+            });
     }
 
 
@@ -97,7 +111,7 @@ export default class AddRestaurantModal extends Component {
                         </div>
                         <div>
                             <label className="form-groupe"><strong>Adresse</strong></label><br />
-                            <input className="form-control" type="text" placeholder="75 rue du Cloitre, 75003 Paris" id="restaurantAdress"></input><br />
+                            <input className="form-control" type="text" placeholder={this.state.address} id="restaurantAddress"></input><br />
                         </div><br />
 
                         <div className="text-center"><strong>Votre avis sur ce restaurant</strong></div>
