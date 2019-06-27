@@ -112,7 +112,8 @@ export default class App extends Component {
           <Header
             restaurants={this.state.restaurants}
             setAverageRatings={this.setAverageRatings}
-            updateRestaurants={this.props.updateRestaurants}
+            updateRestaurants={this.updateRestaurants}
+            updateRatings={this.updateRatings}
           />
         </div>
 

@@ -83,10 +83,6 @@ class Map extends Component {
         }, 2000)
     }
 
-    // componentDidMount() {
-    //     this.getPlacesData();
-    // }
-
 
     promptRatings = () => {
         return (
