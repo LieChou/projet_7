@@ -116,15 +116,6 @@ export default class App extends Component {
     })
   }
 
-  // updateSearchPosition = (searchLat, searchLng) => {
-  //   this.setState({
-  //     position: {
-  //       lat: searchLat,
-  //       lng: searchLng
-  //     }
-  //   })
-  // }
-
   onChangePosition = (searchLat, searchLng) => {
     this.setState({
       position: {
@@ -132,6 +123,9 @@ export default class App extends Component {
         lng: searchLng
       }
     })
+    console.log(this.state.position.lat);
+    console.log(this.state.position.lng);
+
   }
 
   render() {
@@ -161,7 +155,7 @@ export default class App extends Component {
                 setSelectedRestaurant={this.onClickElement}
                 position={this.state.position}
                 updatePosition={this.updatePosition}
-                onChange={this.onChangePosition}
+                onChangePosition={this.onChangePosition}
               />
             </div>
           </div>

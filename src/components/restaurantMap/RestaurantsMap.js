@@ -53,7 +53,7 @@ class Map extends Component {
                 .catch(err => {
                     console.log(err);
                 });
-        }, 2000)
+        }, 1000)
     }
 
     getPlacesRatings = (place_id) => {
@@ -130,6 +130,16 @@ class Map extends Component {
         this.setState({
             selectedPlace: false
         })
+    }
+
+
+    onMarkerDragEnd = (coord) => {
+        const { latLng } = coord;
+        const lat = latLng.lat();
+        const lng = latLng.lng()
+
+        this.props.onChangePosition(lat, lng)
+        this.getPlacesData()
     }
 
 
@@ -219,6 +229,9 @@ class Map extends Component {
                                 url: '/manOnAMap.svg',
                                 scaledSize: new window.google.maps.Size(50, 50)
                             }}
+                            draggable={true}
+                            onDragEnd={(coord) => { this.onMarkerDragEnd(coord) }}
+
                         >
                         </Marker>
                     )
@@ -251,7 +264,7 @@ export default class MapDone extends Component {
                 setSelectedRestaurant={this.props.setSelectedRestaurant}
                 position={this.props.position}
                 updatePosition={this.props.updatePosition}
-                onChange={this.props.onChange}
+                onChangePosition={this.props.onChangePosition}
             />
         )
     }
