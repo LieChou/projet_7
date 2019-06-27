@@ -7,6 +7,10 @@ export default class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      position: {
+        lat: 48.856613,
+        lng: 2.352222
+      },
       restaurants: RestaurantsDatas,
       initialRestaurants: RestaurantsDatas,
       loaded: false,
@@ -103,6 +107,33 @@ export default class App extends Component {
     })
   }
 
+  updatePosition = (location) => {
+    this.setState({
+      position: {
+        lat: location.coords.latitude,
+        lng: location.coords.longitude
+      }
+    })
+  }
+
+  // updateSearchPosition = (searchLat, searchLng) => {
+  //   this.setState({
+  //     position: {
+  //       lat: searchLat,
+  //       lng: searchLng
+  //     }
+  //   })
+  // }
+
+  onChangePosition = (searchLat, searchLng) => {
+    this.setState({
+      position: {
+        lat: searchLat,
+        lng: searchLng
+      }
+    })
+  }
+
   render() {
 
     return (
@@ -114,6 +145,7 @@ export default class App extends Component {
             setAverageRatings={this.setAverageRatings}
             updateRestaurants={this.updateRestaurants}
             updateRatings={this.updateRatings}
+            onChangePosition={this.onChangePosition}
           />
         </div>
 
@@ -124,10 +156,12 @@ export default class App extends Component {
                 restaurants={this.state.restaurants}
                 updateRestaurants={this.updateRestaurants}
                 onCommentAdded={this.onCommentAdded}
-
                 updateRatings={this.updateRatings}
                 selectedRestaurant={this.state.selectedRestaurant}
                 setSelectedRestaurant={this.onClickElement}
+                position={this.state.position}
+                updatePosition={this.updatePosition}
+                onChange={this.onChangePosition}
               />
             </div>
           </div>

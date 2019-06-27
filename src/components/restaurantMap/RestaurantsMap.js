@@ -9,10 +9,6 @@ class Map extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            position: {
-                lat: 48.856613,
-                lng: 2.352222
-            },
             selectedPlace: false,
             selectedPlaceLat: 0,
             selectedPlaceLng: 0,
@@ -26,12 +22,7 @@ class Map extends Component {
     geolocation = () => {
         return (
             navigator.geolocation.getCurrentPosition(location => {
-                this.setState({
-                    position: {
-                        lat: location.coords.latitude,
-                        lng: location.coords.longitude
-                    }
-                })
+                this.props.updatePosition(location)
                 this.getPlacesData();
             }, error => {
                 console.warn(`ERREUR (${error.code}): ${error.message}`);
@@ -43,8 +34,8 @@ class Map extends Component {
     getPlacesData = () => {
         setTimeout(() => {
             //API Google-Places-Search-Nearby query based on geolocalisation if accepted
-            let lat = this.state.position.lat;
-            let lng = this.state.position.lng;
+            let lat = this.props.position.lat;
+            let lng = this.props.position.lng;
             axios.get(`${'https://cors-anywhere.herokuapp.com/'}https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${lat},${lng}&radius=1500&type=restaurant&key=AIzaSyActrrpA2NipKHnS8ksfgblNKuMcJiB_lE`)
                 .then(response => response.data.results)
                 .then(placesApi => {
@@ -146,10 +137,10 @@ class Map extends Component {
         return (
 
             < GoogleMap
+                onChange={this.props.onChange}
                 defaultZoom={12}
-                defaultCenter={{ lat: this.state.position.lat, lng: this.state.position.lng }}
+                defaultCenter={{ lat: this.props.position.lat, lng: this.props.position.lng }}
                 onClick={this.handleClickOnMap}
-            //geolocation={this.geolocation()}
             >
 
                 {
@@ -218,11 +209,11 @@ class Map extends Component {
                 }
 
                 {
-                    this.state.position && (
+                    this.props.position && (
                         <Marker
                             position={{
-                                lat: this.state.position.lat,
-                                lng: this.state.position.lng
+                                lat: this.props.position.lat,
+                                lng: this.props.position.lng
                             }}
                             icon={{
                                 url: '/manOnAMap.svg',
@@ -258,6 +249,9 @@ export default class MapDone extends Component {
                 updateRatings={this.props.updateRatings}
                 selectedRestaurant={this.props.selectedRestaurant}
                 setSelectedRestaurant={this.props.setSelectedRestaurant}
+                position={this.props.position}
+                updatePosition={this.props.updatePosition}
+                onChange={this.props.onChange}
             />
         )
     }

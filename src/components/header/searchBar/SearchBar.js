@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { Formik } from 'formik';
-//import { RestaurantsMap } from '../../restaurantMap/RestaurantsMap';
 import axios from 'axios';
 // import PlacesAutocomplete from 'react-places-autocomplete';
 // import {
@@ -10,13 +9,20 @@ import axios from 'axios';
 // } from 'react-places-autocomplete';
 
 
-
 export default class SearchBar extends Component {
 
+    constructor(props) {
+        super(props)
+        this.state = {
+            searchBarLat: null,
+            searchBarLng: null
+        }
+    }
+
     submit = (values, actions) => {
-        console.log(values)
-        //let value = values;
+
         let value = document.getElementById('searchPlaces').value
+
         axios.get(`${'https://cors-anywhere.herokuapp.com/'}https://maps.googleapis.com/maps/api/place/textsearch/json?query=${value}&radius=1500&type=restaurant&key=AIzaSyActrrpA2NipKHnS8ksfgblNKuMcJiB_lE`)
             .then(response => response.data.results)
             .then(searchApi => {
@@ -27,13 +33,27 @@ export default class SearchBar extends Component {
                     long: p.geometry.location.lng,
                     ratings: []
                 }))
-                searchPlaces.forEach(p => this.getPlacesRatings(p.place_id))
+                searchPlaces.forEach(p => this.getPlacesRatings(p.place_id));
                 const newRestaurants = this.props.restaurants.concat(searchPlaces);
-                this.props.updateRestaurants(newRestaurants);
+                this.props.updateRestaurants(newRestaurants)
             })
             .catch(err => {
                 console.log(err);
             });
+
+        axios.get(`${'https://cors-anywhere.herokuapp.com/'}https://maps.googleapis.com/maps/api/geocode/json?address=${value}&key=AIzaSyActrrpA2NipKHnS8ksfgblNKuMcJiB_lE`)
+            .then(response => response.data.results[0].geometry.location)
+            .then(location => {
+                this.setState({
+                    searchBarLat: location.lat,
+                    searchBarLng: location.lng,
+                })
+                this.props.onChangePosition(this.state.searchBarLat, this.state.searchBarLng)
+            })
+            .catch(err => {
+                console.log(err);
+            });
+
 
         actions.setSubmitting(false)
     }
