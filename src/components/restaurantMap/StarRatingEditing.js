@@ -10,14 +10,6 @@ export default class StarRatingEditing extends Component {
         };
     }
 
-    /*onStarClick(nextValue, prevValue, name) {
-        console.log('nextValue: %s, prevValue: %s, name: %s,', nextValue, prevValue, name);
-        this.setState({
-            rating: nextValue
-        })
-        this.props.onStarUpdated(nextValue)
-    }*/
-
     onStarClickHalfStar(nextValue, prevValue, name, e) {
         const xPos = (e.pageX - e.currentTarget.getBoundingClientRect().left) / e.currentTarget.offsetWidth;
 
@@ -26,7 +18,6 @@ export default class StarRatingEditing extends Component {
         }
 
         console.log(' nextValue: %s, prevValue: %s, name: %s', nextValue, prevValue, name);
-        // console.log(e);
         this.setState({ rating_half_star: nextValue });
 
         this.props.onStarUpdated(nextValue)
@@ -52,7 +43,7 @@ export default class StarRatingEditing extends Component {
                     }
                     renderStarIconHalf={() =>
                         <span>
-                            <span style={{position: 'absolute'}}><i className="far fa-star" /></span>
+                            <span style={{ position: 'absolute' }}><i className="far fa-star" /></span>
                             <span><i className="fas fa-star-half" /></span>
                         </span>
                     }

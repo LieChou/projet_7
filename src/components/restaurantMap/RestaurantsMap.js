@@ -31,9 +31,9 @@ class Map extends Component {
         )
     }
 
+    //API Google-Places-Search-Nearby query based on geolocation if accepted
     getPlacesData = () => {
         setTimeout(() => {
-            //API Google-Places-Search-Nearby query based on geolocalisation if accepted
             let lat = this.props.position.lat;
             let lng = this.props.position.lng;
             axios.get(`${'https://cors-anywhere.herokuapp.com/'}https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${lat},${lng}&radius=1500&type=restaurant&key=AIzaSyActrrpA2NipKHnS8ksfgblNKuMcJiB_lE`)
@@ -56,6 +56,7 @@ class Map extends Component {
         }, 1000)
     }
 
+    //gets ratings details  
     getPlacesRatings = (place_id) => {
         setTimeout(() => {
             let placeId = place_id
@@ -74,7 +75,7 @@ class Map extends Component {
         }, 2000)
     }
 
-
+    // display ratings for each restaurant
     promptRatings = () => {
         return (
             this.props.selectedRestaurant.ratings.map((rating, index) => (
@@ -109,6 +110,7 @@ class Map extends Component {
         })
     }
 
+    //returns lat,lng based on address
     handleGeocodingOnModal = (inputAddress, createNewArrayRestaurants) => {
         axios.get(`${'https://cors-anywhere.herokuapp.com/'}https://maps.googleapis.com/maps/api/geocode/json?address=${inputAddress}&key=AIzaSyActrrpA2NipKHnS8ksfgblNKuMcJiB_lE`)
             .then(response => response.data.results[0].geometry.location)
@@ -132,7 +134,7 @@ class Map extends Component {
         })
     }
 
-
+    //user marker drag and drop management on coordinates
     onMarkerDragEnd = (coord) => {
         const { latLng } = coord;
         const lat = latLng.lat();
@@ -175,7 +177,6 @@ class Map extends Component {
                         <AddRestaurantModal
                             updateRestaurants={this.props.updateRestaurants}
                             restaurants={this.props.restaurants}
-                            onCommentAdded={this.props.onCommentAdded}
                             selectedPlaceLat={this.state.selectedPlaceLat}
                             selectedPlaceLng={this.state.selectedPlaceLng}
                             onCloseClick={this.onCloseClickonMap}
@@ -258,7 +259,6 @@ export default class MapDone extends Component {
                 mapElement={<div style={{ height: `100%` }} />}
                 restaurants={this.props.restaurants}
                 updateRestaurants={this.props.updateRestaurants}
-                onCommentAdded={this.props.onCommentAdded}
                 updateRatings={this.props.updateRatings}
                 selectedRestaurant={this.props.selectedRestaurant}
                 setSelectedRestaurant={this.props.setSelectedRestaurant}

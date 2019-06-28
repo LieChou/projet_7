@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import RestaurantModal from '../../restaurantModal/RestaurantModal';
+import RestaurantModal from './RestaurantModal';
 import StarRatingNonEditing from './StarRatingNonEditing';
 
 export default class RestaurantElement extends Component {

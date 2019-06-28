@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Modal from 'react-modal';
-import { StarRatingEditing } from '..';
+import { StarRatingEditing } from '../..';
 
 const customStyles = {
     content: {
@@ -53,7 +53,7 @@ export default class RestaurantModal extends Component {
         })
     }
 
-    
+
     render() {
         return (
             <div>

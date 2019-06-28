@@ -1,13 +1,6 @@
 import React, { Component } from 'react';
 import { Formik } from 'formik';
 import axios from 'axios';
-// import PlacesAutocomplete from 'react-places-autocomplete';
-// import {
-//     geocodeByAddress,
-//     geocodeByPlaceId,
-//     getLatLng,
-// } from 'react-places-autocomplete';
-
 
 export default class SearchBar extends Component {
 
@@ -23,7 +16,7 @@ export default class SearchBar extends Component {
         console.log(values)
         let value = document.getElementById('searchPlaces').value
 
-        //fetch places for the search input value
+        //gets places for the search input value
         axios.get(`${'https://cors-anywhere.herokuapp.com/'}https://maps.googleapis.com/maps/api/place/textsearch/json?query=${value}&radius=1500&type=restaurant&key=AIzaSyActrrpA2NipKHnS8ksfgblNKuMcJiB_lE`)
             .then(response => response.data.results)
             .then(searchApi => {
@@ -42,7 +35,7 @@ export default class SearchBar extends Component {
                 console.log(err);
             });
 
-        // fetch related ratings for more details
+        // gets related ratings for more details
         axios.get(`${'https://cors-anywhere.herokuapp.com/'}https://maps.googleapis.com/maps/api/geocode/json?address=${value}&key=AIzaSyActrrpA2NipKHnS8ksfgblNKuMcJiB_lE`)
             .then(response => response.data.results[0].geometry.location)
             .then(location => {
@@ -60,6 +53,7 @@ export default class SearchBar extends Component {
         actions.setSubmitting(false)
     }
 
+    //get ratings details 
     getPlacesRatings = (place_id) => {
         setTimeout(() => {
             let placeId = place_id

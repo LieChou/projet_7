@@ -25,8 +25,8 @@ export default class AddRestaurantModal extends Component {
         this.state = {
             modalIsOpen: true,
             value: 1,
-            address:'Vous avez cliqué sur'
-            };
+            address: 'Vous avez cliqué sur'
+        };
 
         this.openModal = this.openModal.bind(this);
         this.closeModal = this.closeModal.bind(this);
@@ -46,7 +46,7 @@ export default class AddRestaurantModal extends Component {
         let newRestaurantAddress = document.getElementById('restaurantAddress').value;
 
         console.log(newRestaurantAddress)
-        this.props.handleGeocodingOnModal(newRestaurantAddress, this.createNewArrayRestaurants)        
+        this.props.handleGeocodingOnModal(newRestaurantAddress, this.createNewArrayRestaurants)
     }
 
     createNewArrayRestaurants = (newRestaurantAddress, newRestaurantLat, newRestaurantLng) => {
@@ -58,7 +58,7 @@ export default class AddRestaurantModal extends Component {
             restaurantName: newRestaurantName,
             address: newRestaurantAddress,
             lat: newRestaurantLat,
-            long: newRestaurantLng, 
+            long: newRestaurantLng,
             ratings: [{
                 stars: newRestaurantRatings,
                 comment: newRestaurantComment
@@ -76,17 +76,18 @@ export default class AddRestaurantModal extends Component {
         })
     }
 
-    componentDidMount(){
+    componentDidMount() {
         this.reverseGeocoding();
     }
 
+    //use lat,lng to return restaurant formatted address
     reverseGeocoding = () => {
         let lat = this.props.selectedPlaceLat;
         let lng = this.props.selectedPlaceLng;
 
         axios.get(`${'https://cors-anywhere.herokuapp.com/'}https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&key=AIzaSyActrrpA2NipKHnS8ksfgblNKuMcJiB_lE`)
-            .then(response=>response.data.results[0].formatted_address)
-            .then(address =>this.setState({ address }))
+            .then(response => response.data.results[0].formatted_address)
+            .then(address => this.setState({ address }))
             .then(console.log(this.state.address))
             .catch(err => {
                 console.log(err);

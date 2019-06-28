@@ -25,6 +25,7 @@ export default class App extends Component {
     this.handleChange = this.handleChange.bind(this);
   }
 
+  //calculate average ratings
   setAverageRatings = (r) => {
     let Rating = r.ratings.map((rating) => (
       rating.stars
@@ -37,10 +38,12 @@ export default class App extends Component {
     for (let i = 0; i < length; i++) {
       sum += Rating[i]
     }
-    let average = sum / length;
+    let result = sum / length;
+    let average = Number(result.toFixed(1));
     return average
   }
 
+  //handle filter selection
   handleChange(event) {
     let inputvalue = event.target.value
     this.setState({
@@ -48,6 +51,7 @@ export default class App extends Component {
     })
   }
 
+  //manage filter submission
   handleSubmit(e) {
     e.preventDefault();
     let arrayRestaurant = [];
@@ -66,6 +70,7 @@ export default class App extends Component {
 
     console.log(this.state.restaurants)
   }
+
 
   updateRestaurants = (newRestaurants) => {
     this.setState({
@@ -107,6 +112,7 @@ export default class App extends Component {
     })
   }
 
+  //update user marker location based on location
   updatePosition = (location) => {
     this.setState({
       position: {
@@ -116,6 +122,7 @@ export default class App extends Component {
     })
   }
 
+  //handle user marker location change on drangEnd based on lat,lng
   onChangePosition = (searchLat, searchLng) => {
     this.setState({
       position: {
@@ -149,7 +156,6 @@ export default class App extends Component {
               <MapDone
                 restaurants={this.state.restaurants}
                 updateRestaurants={this.updateRestaurants}
-                onCommentAdded={this.onCommentAdded}
                 updateRatings={this.updateRatings}
                 selectedRestaurant={this.state.selectedRestaurant}
                 setSelectedRestaurant={this.onClickElement}
