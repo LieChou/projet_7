@@ -47,8 +47,8 @@ class Map extends Component {
                         ratings: []
                     }))
                     places.forEach(p => this.getPlacesRatings(p.place_id))
-                    const newRestaurants = this.props.restaurants.concat(places);
-                    this.props.updateRestaurants(newRestaurants);
+                    //const newRestaurants = this.props.restaurants.concat(places);
+                    this.props.updateRestaurants(places);
                 })
                 .catch(err => {
                     console.log(err);
@@ -150,8 +150,8 @@ class Map extends Component {
 
             < GoogleMap
                 onChange={this.props.onChange}
-                defaultZoom={12}
-                defaultCenter={{ lat: this.props.position.lat, lng: this.props.position.lng }}
+                defaultZoom={13}
+                center={{ lat: this.props.position.lat, lng: this.props.position.lng }}
                 onClick={this.handleClickOnMap}
             >
 

@@ -6,7 +6,7 @@ export default class StarRatingEditing extends Component {
         super();
         this.state = {
             rating: 1,
-            rating_half_star: 3.5,
+            rating_half_star: 1,
         };
     }
 

@@ -7,11 +7,11 @@ const Filter = (props) => {
             <form onSubmit={props.onSubmit}>
                 <label>
                     <select inputvalue={props.inputvalue} onChange={props.handleChange} className="btn btn-primary ml-4">
-                        <option value="5">5 étoiles et plus</option>
-                        <option value="4">4 étoiles et plus</option>
-                        <option value="3">3 étoiles et plus</option>
-                        <option value="2">2 étoiles et plus</option>
                         <option value="1">1 étoile et plus</option>
+                        <option value="2">2 étoiles et plus</option>
+                        <option value="3">3 étoiles et plus</option>
+                        <option value="4">4 étoiles et plus</option>
+                        <option value="5">5 étoiles</option>
                     </select>
                 </label>
                 <input className="btn  btn-primary ml-2 mt-2 mb-2" type="submit" value="Filtrer" />

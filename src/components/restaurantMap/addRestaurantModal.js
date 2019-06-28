@@ -94,6 +94,12 @@ export default class AddRestaurantModal extends Component {
             });
     }
 
+    //change value address input in state from form
+    handleChange = (e) => {
+        this.setState({
+            address: e.target.value
+        })
+    }
 
     render() {
         return (
@@ -112,7 +118,7 @@ export default class AddRestaurantModal extends Component {
                         </div>
                         <div>
                             <label className="form-groupe"><strong>Adresse</strong></label><br />
-                            <input className="form-control" type="text" placeholder={this.state.address} id="restaurantAddress"></input><br />
+                            <input className="form-control" type="text" value={this.state.address} onChange={this.handleChange} id="restaurantAddress"></input><br />
                         </div><br />
 
                         <div className="text-center"><strong>Votre avis sur ce restaurant</strong></div>

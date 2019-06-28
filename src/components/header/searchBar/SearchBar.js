@@ -28,8 +28,7 @@ export default class SearchBar extends Component {
                     ratings: []
                 }))
                 searchPlaces.forEach(p => this.getPlacesRatings(p.place_id));
-                const newRestaurants = this.props.restaurants.concat(searchPlaces);
-                this.props.updateRestaurants(newRestaurants)
+                this.props.updateRestaurants(searchPlaces)
             })
             .catch(err => {
                 console.log(err);
