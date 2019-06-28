@@ -252,7 +252,7 @@ export default class MapDone extends Component {
     render() {
         return (
             <WrappedMap
-                googleMapURL={`https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=geometry,drawing,places&key=AIzaSyCUcHQj9ibjlhFlD2iZ-GEWeLIqFE5buXQ`
+                googleMapURL={`https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=geometry,drawing,places&key=${process.env.REACT_APP_GOOGLE_MAPS}`
                 }
                 loadingElement={<div style={{ height: `100%` }} />}
                 containerElement={<div style={{ height: `100%` }} />}
