@@ -17,7 +17,7 @@ export default class SearchBar extends Component {
         let value = document.getElementById('searchPlaces').value
 
         //gets places for the search input value
-        axios.get(`${'https://cors-anywhere.herokuapp.com/'}https://maps.googleapis.com/maps/api/place/textsearch/json?query=${value}&radius=1500&type=restaurant&key=AIzaSyActrrpA2NipKHnS8ksfgblNKuMcJiB_lE`)
+        axios.get(`${'https://cors-anywhere.herokuapp.com/'}https://maps.googleapis.com/maps/api/place/textsearch/json?query=${value}&radius=1500&type=restaurant&key=${process.env.REACT_APP_GOOGLE_MAPS}`)
             .then(response => response.data.results)
             .then(searchApi => {
                 const searchPlaces = searchApi.map(p => ({
@@ -35,7 +35,7 @@ export default class SearchBar extends Component {
             });
 
         // gets related ratings for more details
-        axios.get(`${'https://cors-anywhere.herokuapp.com/'}https://maps.googleapis.com/maps/api/geocode/json?address=${value}&key=AIzaSyActrrpA2NipKHnS8ksfgblNKuMcJiB_lE`)
+        axios.get(`${'https://cors-anywhere.herokuapp.com/'}https://maps.googleapis.com/maps/api/geocode/json?address=${value}&key=${process.env.REACT_APP_GOOGLE_MAPS}`)
             .then(response => response.data.results[0].geometry.location)
             .then(location => {
                 this.setState({
@@ -56,7 +56,7 @@ export default class SearchBar extends Component {
     getPlacesRatings = (place_id) => {
         setTimeout(() => {
             let placeId = place_id
-            axios.get(`${'https://cors-anywhere.herokuapp.com/'}https://maps.googleapis.com/maps/api/place/details/json?&key=AIzaSyActrrpA2NipKHnS8ksfgblNKuMcJiB_lE&placeid=${placeId}&fields=reviews/rating,reviews/text`)
+            axios.get(`${'https://cors-anywhere.herokuapp.com/'}https://maps.googleapis.com/maps/api/place/details/json?&key=${process.env.REACT_APP_GOOGLE_MAPS}&placeid=${placeId}&fields=reviews/rating,reviews/text`)
                 .then(response => response.data.result.reviews)
                 .then(reviews => {
                     const returnReviews = reviews.map(r => ({

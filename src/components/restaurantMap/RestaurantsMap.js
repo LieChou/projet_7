@@ -36,7 +36,7 @@ class Map extends Component {
         setTimeout(() => {
             let lat = this.props.position.lat;
             let lng = this.props.position.lng;
-            axios.get(`${'https://cors-anywhere.herokuapp.com/'}https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${lat},${lng}&radius=1500&type=restaurant&key=AIzaSyActrrpA2NipKHnS8ksfgblNKuMcJiB_lE`)
+            axios.get(`${'https://cors-anywhere.herokuapp.com/'}https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${lat},${lng}&radius=1500&type=restaurant&key=${process.env.REACT_APP_GOOGLE_MAPS}`)
                 .then(response => response.data.results)
                 .then(placesApi => {
                     const places = placesApi.map(p => ({
@@ -60,7 +60,7 @@ class Map extends Component {
     getPlacesRatings = (place_id) => {
         setTimeout(() => {
             let placeId = place_id
-            axios.get(`${'https://cors-anywhere.herokuapp.com/'}https://maps.googleapis.com/maps/api/place/details/json?&key=AIzaSyActrrpA2NipKHnS8ksfgblNKuMcJiB_lE&placeid=${placeId}&fields=reviews/rating,reviews/text`)
+            axios.get(`${'https://cors-anywhere.herokuapp.com/'}https://maps.googleapis.com/maps/api/place/details/json?&key=${process.env.REACT_APP_GOOGLE_MAPS}&placeid=${placeId}&fields=reviews/rating,reviews/text`)
                 .then(response => response.data.result.reviews)
                 .then(reviews => {
                     const returnReviews = reviews.map(r => ({
@@ -94,7 +94,7 @@ class Map extends Component {
     restaurantStreetView = (r) => {
         let lat = r.lat;
         let lng = r.long;
-        let restaurantImage = `https://maps.googleapis.com/maps/api/streetview?size=600x300&location=${lat},${lng}&fov=90&heading=235&pitch=10&key=AIzaSyCmj4tmdfPWfODhSUyPkGh7zTqEJzv65gc`
+        let restaurantImage = `https://maps.googleapis.com/maps/api/streetview?size=600x300&location=${lat},${lng}&fov=90&heading=235&pitch=10&key=${process.env.REACT_APP_GOOGLE_STREETVIEW}`
         return (
             restaurantImage
         )
@@ -112,7 +112,7 @@ class Map extends Component {
 
     //returns lat,lng based on address
     handleGeocodingOnModal = (inputAddress, createNewArrayRestaurants) => {
-        axios.get(`${'https://cors-anywhere.herokuapp.com/'}https://maps.googleapis.com/maps/api/geocode/json?address=${inputAddress}&key=AIzaSyActrrpA2NipKHnS8ksfgblNKuMcJiB_lE`)
+        axios.get(`${'https://cors-anywhere.herokuapp.com/'}https://maps.googleapis.com/maps/api/geocode/json?address=${inputAddress}&key=${process.env.REACT_APP_GOOGLE_MAPS}`)
             .then(response => response.data.results[0].geometry.location)
             .then(location => {
                 this.setState({

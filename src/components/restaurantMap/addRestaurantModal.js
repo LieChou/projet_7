@@ -85,7 +85,7 @@ export default class AddRestaurantModal extends Component {
         let lat = this.props.selectedPlaceLat;
         let lng = this.props.selectedPlaceLng;
 
-        axios.get(`${'https://cors-anywhere.herokuapp.com/'}https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&key=AIzaSyActrrpA2NipKHnS8ksfgblNKuMcJiB_lE`)
+        axios.get(`${'https://cors-anywhere.herokuapp.com/'}https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&key=${process.env.REACT_APP_GOOGLE_MAPS}`)
             .then(response => response.data.results[0].formatted_address)
             .then(address => this.setState({ address }))
             .then(console.log(this.state.address))
