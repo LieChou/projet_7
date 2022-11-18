@@ -16,7 +16,7 @@
     "react-google-maps": "^9.4.5",
     "react-modal": "^3.8.1",
     "react-places-autocomplete": "^7.2.1",
-    "react-scripts": "3.0.1",
+    "react-scripts": "5.0.1",
     "react-star-rating-component": "^1.4.1",
     "react-streetview": "^1.1.1",
     "yup": "^0.27.0"
